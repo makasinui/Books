@@ -24,3 +24,5 @@ php artisan db:seed --class=UserTableSeeder <br>
 ##Start project <br>
 php artisan serve <br>
 npm run watch / yarn watch <br>
+Admin user: E-mail: admin@r.ru Pass: admin123 <br>
+Default user : E-mail: user@r.ru Pass: admin123 <br>
