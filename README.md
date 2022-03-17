@@ -1,26 +1,26 @@
-## 
-#Installation 
-composer install
-npm install / yarn install
 
-##Database
-CREATE DATABASE book DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
-CREATE USER 'user'@'localhost' IDENTIFIED BY '123';
-GRANT ALL PRIVILEGES ON book.* TO 'user'@'localhost';
+#Installation <br>
+composer install<br>
+npm install / yarn install<br>
 
-##ENV 
-DB_DATABASE=book
-DB_USERNAME=user
-DB_PASSWORD=123
+##Database<br>
+CREATE DATABASE book DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;<br>
+CREATE USER 'user'@'localhost' IDENTIFIED BY '123';<br>
+GRANT ALL PRIVILEGES ON book.* TO 'user'@'localhost';<br>
 
-##Laravel 
-php artisan key:generate
-php artisan migrate 
-php artisan db:seed --class=SectionsTableSeeder
-php artisan db:seed --class=AuthorsTableSeeder
-php artisan db:seed --class=BooksTableSeeder
-php artisan db:seed --class=UserTableSeeder
+##ENV  <br>
+DB_DATABASE=book <br>
+DB_USERNAME=user <br>
+DB_PASSWORD=123 <br>
 
-##Start project
-php artisan serve
-npm run watch / yarn watch
+##Laravel <br>
+php artisan key:generate <br>
+php artisan migrate  <br>
+php artisan db:seed --class=SectionsTableSeeder <br>
+php artisan db:seed --class=AuthorsTableSeeder <br>
+php artisan db:seed --class=BooksTableSeeder <br>
+php artisan db:seed --class=UserTableSeeder <br>
+
+##Start project <br>
+php artisan serve <br>
+npm run watch / yarn watch <br>
