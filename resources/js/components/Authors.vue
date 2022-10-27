@@ -6,76 +6,30 @@
             <div
                 class="card me-4 mt-4"
                 style="width: 18rem"
-                v-for="(author, i) in authors"
+                v-for="author in authors"
                 :key="author.id"
             >
-                <div class="card-body">
-                    <h5 class="card-title">{{ author.name }}</h5>
-                    <p class="card-text">{{ author.country }}</p>
-                    <p class="card-text">{{ author.comment }}</p>
-                    <div class="flex justify-between" v-show="this.user.role=='admin'">
-                        <router-link
-                            :to="{
-                                name: 'EditAuthor',
-                                params: { authorId: author.id },
-                            }"
-                            class="btn btn-primary"
-                            >Изменить</router-link
-                        >
-                        <a
-                            href="#"
-                            @click.prevent="deleteItem(author.id)"
-                            class="btn btn-danger"
-                            >Удалить</a
-                        >
-                    </div>
-                </div>
+                <Author :author="author"/>
             </div>
         </div>
     </main>
+    <Modal :show="show" @change="closeModal"/>
 </template>
 <script>
 import axios from "axios";
+import { mapState, mapActions } from 'vuex'
+import Author from "./entity/Author.vue";
 export default {
-    data:function(){
-        return{
-            authors: [],
-            user:{}
-        }
-    },
-    methods:{
-         deleteItem(id){
-           if(confirm('Удалить автора?')){
-               axios.post('http://127.0.0.1:8000/api/authors/'+id,{
-                _method: 'DELETE'
-                })
-                .then(resp=>{
-                    this.authors = null;
-                    this.getAuthors();
-                })
-           }
-        },
-        getAuthors(){
-            let url = `/api/authors`;
-            axios.get(url)
-            .then((resp)=>{
-                this.authors = resp.data.data;
-            })
-            .catch((resp)=>{
-                console.log(resp);
-            })
-        },
+    components: {Author},
+    methods: {
+        ...mapActions(['getAuthors']),
         
+    },
+    computed: {
+        ...mapState(['user', 'authors'])
     },
     mounted(){
         this.getAuthors();
-        axios.get('/api/current')
-        .then((resp)=>{
-            this.user = resp.data;
-        })
-        .catch((resp)=>{
-            console.log(resp);
-        })
     },
 }
 </script>
