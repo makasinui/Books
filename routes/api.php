@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/search', [BooksController::class, 'search']);
+
 Route::resources([
     'books' => BooksController::class
 ]);
@@ -34,8 +36,8 @@ Route::resources([
     'sections' => SectionsController::class
 ]);
 
-Route::post('/books', [BooksController::class,'store']);
-Route::post('/authors', [AuthorsController::class,'store']);
-
-
-Route::get('/current',[UserController::class, 'index']);
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::post('/books', [BooksController::class, 'store']);
+    Route::post('/authors', [AuthorsController::class, 'store'])->middleware('auth.admin');
+    Route::post('/sections', [SectionsController::class, 'store'])->middleware('auth.admin');
+});
