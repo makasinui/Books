@@ -19,7 +19,7 @@ class AuthorsResource extends JsonResource
             'name' => $this->name,
             'country' => $this->country,
             'comment' => $this->comment,
-            'books'=>BooksResource::collection($this->books)
+            'books'=> BooksResource::collection($this->books)
         ];
     }
 }

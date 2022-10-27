@@ -17,9 +17,17 @@ class BooksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return BooksResource::collection(Book::paginate(5));
+        $q = $request->query('q');
+        $sort_by = $request->query('sortBy') ?? 'name';
+        return BooksResource::collection(
+            Book::leftJoin('authors', 'books.author_id', '=', 'authors.id')
+            ->where('books.name', 'LIKE', '%' . $q . '%')
+            ->select('books.*','authors.name as author_name')
+            ->orderBy($sort_by, 'asc')
+            ->paginate(5)
+        );
     }
 
     /**
@@ -33,7 +41,7 @@ class BooksController extends Controller
         $picName = time().'.'.$request->img->extension();
         $request->img->move(public_path('uploads'),$picName);
 
-        $created_book = Book::create(array_merge($request->validated(), ['img'=>'//project/public/uploads/' . $picName]));
+        $created_book = Book::create(array_merge($request->validated(), ['img'=>'//laravel-vue-ex/public/uploads/' . $picName]));
 
         return new BooksResource($created_book);
     }
@@ -68,13 +76,6 @@ class BooksController extends Controller
                $book -> update($request->validated());
                return $book; 
         }
-
-        
-        
-        
-        
-        
-       
     }
 
     /**

@@ -67,6 +67,6 @@ class SectionsController extends Controller
     {
         $section->delete();
 
-        return response(null,Response::HTTP_NO_CONTENT);
+        return response('Successfully');
     }
 }
