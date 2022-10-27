@@ -99,6 +99,7 @@
 <script>
 import { required, maxLength } from "@vuelidate/validators";
 import useVuelidate from "@vuelidate/core";
+import { mapActions, mapState } from "vuex";
 
 export default {
     setup() {
@@ -107,8 +108,6 @@ export default {
     data() {
         return {
             book: {},
-            authors: [],
-            sections:[],
             name: "",
             author_id: "",
             section_id:'',
@@ -118,11 +117,13 @@ export default {
         };
     },
     methods: {
+        ...mapActions(['getAuthors', 'getSections']),
         imgLoad(e) {
             this.img = e.target.files[0];
         },
         addBook() {
             let formData = new FormData();
+            
             formData.append('img',this.img);
             formData.append('name',this.name);
             formData.append('author_id',this.author_id);
@@ -146,28 +147,13 @@ export default {
                     });
             }
         },
-        changes() {
-            console.log(this.name);
-        },
     },
-    mounted() {
-        axios
-            .get("http://127.0.0.1:8000/api/authors")
-            .then((resp) => {
-                this.authors = resp.data.data;
-            })
-            .catch((resp) => {
-                console.log(resp);
-            });
-
-        axios
-            .get("http://127.0.0.1:8000/api/sections")
-            .then((resp) => {
-                this.sections = resp.data.data;
-            })
-            .catch((resp) => {
-                console.log(resp);
-            });
+    computed: {
+        ...mapState(['sections', 'authors'])
+    },
+    async mounted() {
+        this.getAuthors(),
+        this.getSections()
     },
     validations() {
         return {
